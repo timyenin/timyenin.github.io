@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tim Yenin · Cybersecurity</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0d0f14;--bg2:#141720;--bg3:#1c2030;--bg4:#222640;
+  --border:#2a2f42;--border2:#3a4060;
+  --accent:#4ade80;--cyan:#22d3ee;--purple:#a78bfa;--amber:#f59e0b;--red:#f87171;
+  --text:#e8eaf0;--text2:#8b92a8;--text3:#555e7a;
+  --mono:'JetBrains Mono',monospace;--sans:'DM Sans',sans-serif;
+  --r:14px;--rsm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(13,15,20,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 clamp(1rem,5vw,3rem);height:56px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--accent);letter-spacing:.04em;cursor:pointer;background:none;border:none;}
+.nav-logo span{color:var(--text3);}
+.nav-links{display:flex;align-items:center;gap:4px;list-style:none;}
+.nav-links button{font-family:var(--mono);font-size:12px;color:var(--text2);background:none;border:none;cursor:pointer;padding:5px 10px;border-radius:99px;transition:all .2s;letter-spacing:.04em;}
+.nav-links button:hover{color:var(--text);background:var(--bg2);}
+.nav-links button.nav-cta{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:var(--accent);}
+.nav-links button.nav-cta:hover{background:rgba(74,222,128,.18);}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);border-radius:1px;transition:all .3s;}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:1rem;z-index:99;flex-direction:column;gap:4px;}
+.mobile-menu.open{display:flex;}
+.mobile-menu button{font-family:var(--mono);font-size:13px;color:var(--text2);background:none;border:none;cursor:pointer;text-align:left;padding:10px 12px;border-radius:var(--rsm);transition:all .2s;letter-spacing:.04em;}
+.mobile-menu button:hover{background:var(--bg3);color:var(--text);}
+
+/* LAYOUT */
+section{padding:clamp(4rem,8vw,6rem) clamp(1rem,5vw,3rem);max-width:1000px;margin:0 auto;}
+.section-label{font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:.12em;margin-bottom:1rem;display:flex;align-items:center;gap:10px;}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:600;margin-bottom:2rem;}
+
+/* HERO */
+#hero{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding-top:80px;position:relative;}
+#hero::before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 50% at 20% 30%,rgba(74,222,128,.06) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 85% 70%,rgba(34,211,238,.05) 0%,transparent 60%);}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:var(--accent);font-family:var(--mono);font-size:11px;letter-spacing:.08em;padding:6px 14px;border-radius:99px;margin-bottom:1.5rem;animation:fadeUp .6s ease both;}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulseDot 2s ease infinite;}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+.hero-name{font-family:var(--mono);font-size:clamp(2.8rem,10vw,5.5rem);font-weight:700;line-height:.95;letter-spacing:-.03em;color:var(--accent);margin-bottom:.75rem;animation:fadeUp .6s .08s ease both;}
+.hero-title{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text2);font-weight:300;margin-bottom:1.5rem;animation:fadeUp .6s .16s ease both;max-width:560px;}
+.hero-title strong{color:var(--text);font-weight:500;}
+.hero-terminal{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--r);padding:16px 20px;font-family:var(--mono);font-size:13px;color:var(--text2);max-width:560px;margin-bottom:2rem;animation:fadeUp .6s .24s ease both;line-height:1.8;}
+.hero-terminal .cmd{color:var(--accent);}
+.hero-terminal .val{color:var(--cyan);}
+.hero-terminal .comment{color:var(--text3);}
+.hero-btns{display:flex;flex-wrap:wrap;gap:10px;animation:fadeUp .6s .32s ease both;}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#0d1a0d;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.04em;padding:12px 22px;border-radius:var(--r);border:none;cursor:pointer;transition:all .2s;}
+.btn-primary:hover{background:#3bcc70;transform:translateY(-1px);}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--text2);font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.04em;padding:12px 22px;border-radius:var(--r);border:1px solid var(--border2);cursor:pointer;transition:all .2s;}
+.btn-secondary:hover{background:var(--bg2);color:var(--text);transform:translateY(-1px);}
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.1em;display:flex;flex-direction:column;align-items:center;gap:6px;animation:bounce 2s ease infinite;cursor:pointer;background:none;border:none;}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* ABOUT */
+.about-grid{display:flex;flex-direction:column;gap:1rem;}
+.about-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;transition:border-color .2s;}
+.about-card:hover{border-color:var(--border2);}
+.about-card-label{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.1em;margin-bottom:.75rem;}
+.about-text{font-size:15px;color:var(--text2);line-height:1.75;}
+.about-text strong{color:var(--text);}
+.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;text-align:center;}
+.stat-val{font-family:var(--mono);font-size:1.8rem;font-weight:700;}
+.stat-val.green{color:var(--accent);}.stat-val.cyan{color:var(--cyan);}.stat-val.purple{color:var(--purple);}
+.stat-label{font-size:12px;color:var(--text3);margin-top:4px;}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+.skill-group{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;transition:border-color .2s;position:relative;overflow:hidden;}
+.skill-group::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.skill-group.grc::before{background:var(--accent);}
+.skill-group.soc::before{background:var(--cyan);}
+.skill-group.dev::before{background:var(--purple);}
+.skill-group.net::before{background:var(--amber);}
+.skill-group:hover{border-color:var(--border2);}
+.skill-group-title{font-family:var(--mono);font-size:11px;letter-spacing:.08em;margin-bottom:1rem;}
+.skill-group.grc .skill-group-title{color:var(--accent);}
+.skill-group.soc .skill-group-title{color:var(--cyan);}
+.skill-group.dev .skill-group-title{color:var(--purple);}
+.skill-group.net .skill-group-title{color:var(--amber);}
+.skill-tags{display:flex;flex-wrap:wrap;gap:7px;}
+.stag{font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid;}
+.stag.g{background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.25);color:#86efac;}
+.stag.c{background:rgba(34,211,238,.1);border-color:rgba(34,211,238,.25);color:#67e8f9;}
+.stag.p{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.25);color:#c4b5fd;}
+.stag.a{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:#fcd34d;}
+
+/* CERTS */
+.certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+.cert-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem;display:flex;gap:14px;align-items:flex-start;transition:border-color .2s,transform .2s;}
+.cert-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+.cert-card.earned{border-color:rgba(74,222,128,.3);}
+.cert-card.progress{border-color:rgba(245,158,11,.25);}
+.cert-card.target{border-color:rgba(34,211,238,.2);}
+.cert-icon{width:40px;height:40px;border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.cert-card.earned .cert-icon{background:rgba(74,222,128,.12);}
+.cert-card.progress .cert-icon{background:rgba(245,158,11,.12);}
+.cert-card.target .cert-icon{background:rgba(34,211,238,.1);}
+.cert-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.cert-issuer{font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:6px;}
+.cert-badge{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:99px;display:inline-block;}
+.badge-earned{background:rgba(74,222,128,.15);color:#86efac;border:1px solid rgba(74,222,128,.3);}
+.badge-progress{background:rgba(245,158,11,.15);color:#fcd34d;border:1px solid rgba(245,158,11,.3);}
+.badge-target{background:rgba(34,211,238,.1);color:#67e8f9;border:1px solid rgba(34,211,238,.25);}
+
+/* EXPERIENCE */
+.exp-list{display:flex;flex-direction:column;gap:14px;}
+.exp-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;transition:border-color .2s;position:relative;}
+.exp-card:hover{border-color:var(--border2);}
+.exp-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;gap:1rem;flex-wrap:wrap;}
+.exp-role{font-size:16px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.exp-company{font-family:var(--mono);font-size:12px;color:var(--accent);}
+.exp-date{font-family:var(--mono);font-size:11px;color:var(--text3);white-space:nowrap;}
+.exp-body{font-size:14px;color:var(--text2);line-height:1.65;}
+.exp-body ul{padding-left:1.25rem;margin-top:.5rem;display:flex;flex-direction:column;gap:4px;}
+.exp-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:1rem;}
+.etag{font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:99px;border:1px solid var(--border2);color:var(--text3);}
+
+/* PROJECTS */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;}
+.proj-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem;transition:border-color .2s,transform .2s;display:flex;flex-direction:column;}
+.proj-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+.proj-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;}
+.proj-icon{font-size:22px;}
+.proj-status{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:99px;}
+.ps-active{background:rgba(74,222,128,.12);color:#86efac;border:1px solid rgba(74,222,128,.25);}
+.ps-building{background:rgba(245,158,11,.12);color:#fcd34d;border:1px solid rgba(245,158,11,.3);}
+.ps-planned{background:rgba(85,94,122,.2);color:var(--text3);border:1px solid var(--border2);}
+.proj-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:5px;}
+.proj-desc{font-size:13px;color:var(--text2);line-height:1.6;flex:1;margin-bottom:.75rem;}
+.proj-tech{display:flex;flex-wrap:wrap;gap:5px;}
+.ptag{font-family:var(--mono);font-size:10px;color:var(--text3);border:1px solid var(--border);border-radius:99px;padding:2px 8px;}
+
+/* EDUCATION */
+.edu-list{display:flex;flex-direction:column;gap:14px;}
+.edu-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem;display:flex;gap:16px;align-items:flex-start;transition:border-color .2s;}
+.edu-card:hover{border-color:var(--border2);}
+.edu-icon{width:42px;height:42px;border-radius:var(--rsm);background:rgba(74,222,128,.1);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.edu-school{font-size:15px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.edu-degree{font-size:13px;color:var(--text2);margin-bottom:5px;line-height:1.5;}
+.edu-meta{font-family:var(--mono);font-size:11px;color:var(--text3);}
+.edu-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.ebadge{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:99px;background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.25);color:#c4b5fd;}
+.ebadge.green{background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.25);color:#86efac;}
+.ebadge.cyan{background:rgba(34,211,238,.1);border-color:rgba(34,211,238,.25);color:#67e8f9;}
+
+/* CONTACT */
+#contact{padding-bottom:5rem;}
+.contact-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:clamp(1.5rem,4vw,2.5rem);text-align:center;max-width:600px;margin:0 auto;position:relative;overflow:hidden;}
+.contact-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),var(--cyan),transparent);}
+.contact-title{font-family:var(--mono);font-size:clamp(1.4rem,4vw,2rem);font-weight:700;margin-bottom:.5rem;}
+.contact-sub{font-size:15px;color:var(--text2);margin-bottom:2rem;line-height:1.65;}
+.contact-links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:2rem;}
+.clink{display:inline-flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:11px 18px;font-family:var(--mono);font-size:13px;color:var(--text2);text-decoration:none;transition:all .2s;}
+.clink:hover{border-color:var(--accent);color:var(--accent);background:rgba(74,222,128,.07);transform:translateY(-2px);}
+.clink-icon{font-size:16px;}
+.contact-note{font-size:12px;color:var(--text3);font-family:var(--mono);}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:1.5rem clamp(1rem,5vw,3rem);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.footer-copy{font-family:var(--mono);font-size:11px;color:var(--text3);}
+.footer-copy span{color:var(--accent);}
+.footer-quote{font-family:var(--mono);font-size:11px;color:var(--text3);font-style:italic;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* RESPONSIVE */
+@media(max-width:640px){.nav-links{display:none;}.hamburger{display:flex;}.about-stats{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:400px){.about-stats{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <button class="nav-logo" onclick="navTo('hero')">ty<span>.</span>sec</button>
+  <ul class="nav-links">
+    <li><button onclick="navTo('about')">about</button></li>
+    <li><button onclick="navTo('skills')">skills</button></li>
+    <li><button onclick="navTo('certs')">certs</button></li>
+    <li><button onclick="navTo('experience')">experience</button></li>
+    <li><button onclick="navTo('projects')">homelab</button></li>
+    <li><button onclick="navTo('education')">education</button></li>
+    <li><button onclick="navTo('contact')" class="nav-cta">contact</button></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button onclick="navTo('about');closeMenu()">about</button>
+  <button onclick="navTo('skills');closeMenu()">skills</button>
+  <button onclick="navTo('certs');closeMenu()">certs</button>
+  <button onclick="navTo('experience');closeMenu()">experience</button>
+  <button onclick="navTo('projects');closeMenu()">homelab</button>
+  <button onclick="navTo('education');closeMenu()">education</button>
+  <button onclick="navTo('contact');closeMenu()">contact</button>
+</div>
+
+<section id="hero">
+  <div class="hero-badge"><div class="pulse-dot"></div>OPEN TO INTERNSHIPS &amp; OPPORTUNITIES</div>
+  <h1 class="hero-name">Tim<br>Yenin</h1>
+  <p class="hero-title"><strong>Cybersecurity student</strong> · GRC · SOC · AI/LLM Security<br>University of North Georgia · B.S. Cybersecurity</p>
+  <div class="hero-terminal">
+    <span class="comment">// current status</span><br>
+    <span class="cmd">student</span>   = <span class="val">"UNG Cybersecurity B.S."</span><br>
+    <span class="cmd">cert</span>      = <span class="val">"CompTIA Tech+ ✓"</span><br>
+    <span class="cmd">focus</span>     = <span class="val">["GRC", "SOC", "LLM Security"]</span><br>
+    <span class="cmd">program</span>   = <span class="val">"CLDP applicant @ UNG ICO"</span><br>
+    <span class="cmd">homelab</span>   = <span class="val">"active &amp; expanding"</span>
+  </div>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="navTo('contact')">Get in Touch →</button>
+    <button class="btn-secondary" onclick="navTo('experience')">View Experience</button>
+  </div>
+  <button class="hero-scroll" onclick="navTo('about')">scroll<br>↓</button>
+</section>
+
+<section id="about">
+  <div class="section-label">01 · about</div>
+  <h2>Who I Am</h2>
+  <div class="about-grid reveal">
+    <div class="about-card">
+      <div class="about-card-label">BACKGROUND</div>
+      <p class="about-text">I'm a <strong>Cybersecurity B.S. student</strong> at the University of North Georgia, currently transferring to the Dahlonega campus as I advance through the program. My passion lies in <strong>defending the full spectrum of the cyber landscape</strong> — from governance, risk, and compliance frameworks to the frontlines of security operations, and into the rapidly evolving threat surface introduced by <strong>artificial intelligence and large language models</strong>.</p>
+    </div>
+    <div class="about-card">
+      <div class="about-card-label">MISSION</div>
+      <p class="about-text">We are living through a generational shift in how technology shapes society — and with it comes an expanding attack surface that demands skilled, adaptive defenders. My goal is to be one of them. Whether that means building compliance programs, monitoring threats in a SOC, or helping organizations navigate the security implications of AI, I'm committed to <strong>developing the skills and experience needed to make meaningful contributions</strong> to cybersecurity at every level.</p>
+    </div>
+    <div class="about-card">
+      <div class="about-card-label">RIGHT NOW</div>
+      <p class="about-text">I'm an applicant for UNG's <strong>Cyber Leader Development Program (CLDP)</strong> at the Institute for Cyber Operations. Outside of class, I'm actively building a hands-on <strong>security homelab</strong> covering networking, virtualization, DNS filtering, and local AI inference. I passed the <strong>CompTIA Tech+</strong> and am pursuing further credentials while preparing for internship and entry-level opportunities in the field.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card"><div class="stat-val green">1</div><div class="stat-label">Certification<br>earned</div></div>
+      <div class="stat-card"><div class="stat-val cyan">3+</div><div class="stat-label">Focus<br>domains</div></div>
+      <div class="stat-card"><div class="stat-val purple">∞</div><div class="stat-label">Homelab<br>projects</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-label">02 · skills</div>
+  <h2>Technical Skills</h2>
+  <div class="skills-grid reveal">
+    <div class="skill-group grc">
+      <div class="skill-group-title">GRC &amp; COMPLIANCE</div>
+      <div class="skill-tags">
+        <span class="stag g">Risk Assessment</span><span class="stag g">Security Frameworks</span><span class="stag g">Policy Development</span><span class="stag g">Compliance Review</span><span class="stag g">ISC² (in progress)</span><span class="stag g">Audit Prep</span>
+      </div>
+    </div>
+    <div class="skill-group soc">
+      <div class="skill-group-title">SOC &amp; OPERATIONS</div>
+      <div class="skill-tags">
+        <span class="stag c">Log Analysis</span><span class="stag c">Threat Detection</span><span class="stag c">Incident Response</span><span class="stag c">SIEM Concepts</span><span class="stag c">Network Monitoring</span>
+      </div>
+    </div>
+    <div class="skill-group dev">
+      <div class="skill-group-title">DEVELOPMENT &amp; TOOLS</div>
+      <div class="skill-tags">
+        <span class="stag p">Java (OOP)</span><span class="stag p">Python</span><span class="stag p">Scripting</span><span class="stag p">VMware Fusion</span><span class="stag p">Proxmox (learning)</span><span class="stag p">Linux (Ubuntu)</span><span class="stag p">Ollama / LLMs</span><span class="stag p">Git</span>
+      </div>
+    </div>
+    <div class="skill-group net">
+      <div class="skill-group-title">NETWORKING &amp; INFRASTRUCTURE</div>
+      <div class="skill-tags">
+        <span class="stag a">Cisco IOS</span><span class="stag a">VLANs</span><span class="stag a">DD-WRT</span><span class="stag a">Structured Cabling</span><span class="stag a">Pi-hole</span><span class="stag a">Firewall Concepts</span><span class="stag a">Microsoft 365</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certs">
+  <div class="section-label">03 · certifications</div>
+  <h2>Credentials</h2>
+  <div class="certs-grid reveal">
+    <div class="cert-card earned">
+      <div class="cert-icon">🏆</div>
+      <div><div class="cert-name">CompTIA Tech+</div><div class="cert-issuer">FC0-U71 · CompTIA</div><span class="cert-badge badge-earned">✓ EARNED</span></div>
+    </div>
+    <div class="cert-card progress">
+      <div class="cert-icon">📚</div>
+      <div><div class="cert-name">ISC² Certification</div><div class="cert-issuer">ISC² · Pursuing</div><span class="cert-badge badge-progress">IN PROGRESS</span></div>
+    </div>
+    <div class="cert-card target">
+      <div class="cert-icon">🎯</div>
+      <div><div class="cert-name">Microsoft AZ-900</div><div class="cert-issuer">Azure Fundamentals · Microsoft</div><span class="cert-badge badge-target">TARGETED</span></div>
+    </div>
+    <div class="cert-card target">
+      <div class="cert-icon">🎯</div>
+      <div><div class="cert-name">CompTIA Security+</div><div class="cert-issuer">SY0-701 · CompTIA</div><span class="cert-badge badge-target">TARGETED</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section-label">04 · experience</div>
+  <h2>Experience</h2>
+  <div class="exp-list reveal">
+    <div class="exp-card">
+      <div class="exp-header">
+        <div><div class="exp-role">CLDP Program Applicant</div><div class="exp-company">UNG · Institute for Cyber Operations</div></div>
+        <div class="exp-date">2026</div>
+      </div>
+      <div class="exp-body"><p>Applied to the Cyber Leader Development Program at UNG's Institute for Cyber Operations — a competitive program focused on developing the next generation of cyber leaders for government, military, and industry roles.</p></div>
+      <div class="exp-tags"><span class="etag">Cyber Leadership</span><span class="etag">ICO</span><span class="etag">UNG</span><span class="etag">Government Sector</span></div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-header">
+        <div><div class="exp-role">IT Generalist (Prospective)</div><div class="exp-company">AJC International</div></div>
+        <div class="exp-date">Exploring</div>
+      </div>
+      <div class="exp-body"><p>Exploring IT support and generalist opportunities at AJC International, a distribution company. Focus areas include Microsoft stack administration, endpoint support, and internal IT infrastructure operations.</p></div>
+      <div class="exp-tags"><span class="etag">IT Support</span><span class="etag">Microsoft 365</span><span class="etag">Helpdesk</span><span class="etag">Windows</span><span class="etag">Infrastructure</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-label">05 · homelab &amp; projects</div>
+  <h2>Homelab &amp; Projects</h2>
+  <div class="proj-grid reveal">
+    <div class="proj-card">
+      <div class="proj-card-top"><div class="proj-icon">🔀</div><span class="proj-status ps-building">BUILDING</span></div>
+      <div class="proj-name">GRC / SOC / LLM Security Lab</div>
+      <div class="proj-desc">Full-stack security homelab built around a Cisco Catalyst 2960X 48-port Gigabit switch with structured VLAN segmentation, DD-WRT routing, and VM infrastructure via VMware Fusion. Proxmox migration planned.</div>
+      <div class="proj-tech"><span class="ptag">Cisco 2960X</span><span class="ptag">VMware Fusion</span><span class="ptag">DD-WRT</span><span class="ptag">VLANs</span><span class="ptag">Proxmox (planned)</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-card-top"><div class="proj-icon">🤖</div><span class="proj-status ps-planned">PLANNED</span></div>
+      <div class="proj-name">Raspberry Pi 5 · AI &amp; DNS Node</div>
+      <div class="proj-desc">Raspberry Pi 5 (8GB) designated as a dedicated node for Pi-hole DNS filtering, Ollama local LLM inference, and always-on Linux services. Deploying after core lab infrastructure is stable.</div>
+      <div class="proj-tech"><span class="ptag">Raspberry Pi 5</span><span class="ptag">Pi-hole</span><span class="ptag">Ollama</span><span class="ptag">Linux</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-card-top"><div class="proj-icon">🖥️</div><span class="proj-status ps-building">BUILDING</span></div>
+      <div class="proj-name">iMac 2013 · Lab Workstation</div>
+      <div class="proj-desc">Repurposing a Late 2013 iMac 21.5" as a dedicated lab workstation with upgraded 16GB DDR3L RAM and a 1TB Crucial BX500 SSD. Hosts VMware Fusion VMs for isolated security environments.</div>
+      <div class="proj-tech"><span class="ptag">iMac 2013</span><span class="ptag">16GB DDR3L</span><span class="ptag">1TB SSD</span><span class="ptag">VMware Fusion</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-card-top"><div class="proj-icon">🌐</div><span class="proj-status ps-active">ACTIVE</span></div>
+      <div class="proj-name">Network Segmentation Lab</div>
+      <div class="proj-desc">Structured VLAN design with a color-coded Cat6 cabling scheme: blue for primary workstation, black for router uplink, red for untrusted/lab VLAN, white reserved for management traffic.</div>
+      <div class="proj-tech"><span class="ptag">Cat6</span><span class="ptag">VLANs</span><span class="ptag">VLAN Trunking</span><span class="ptag">Cisco IOS</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="section-label">06 · education</div>
+  <h2>Education</h2>
+  <div class="edu-list reveal">
+    <div class="edu-card">
+      <div class="edu-icon">🎓</div>
+      <div style="flex:1">
+        <div class="edu-school">University of North Georgia</div>
+        <div class="edu-degree">B.S. Cybersecurity · Dahlonega Campus</div>
+        <div class="edu-meta">Expected Graduation ~2028 · Transfer effective Fall 2026 · Registration opens April 13</div>
+        <div class="edu-badges"><span class="ebadge">CLDP Applicant</span><span class="ebadge">Institute for Cyber Operations</span><span class="ebadge">Dahlonega Transfer</span></div>
+      </div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-icon">🔐</div>
+      <div style="flex:1">
+        <div class="edu-school">Upcoming — Fall 2026</div>
+        <div class="edu-degree">Script Programming &nbsp;·&nbsp; Applied Cybersecurity</div>
+        <div class="edu-meta">University of North Georgia · Dahlonega Campus</div>
+        <div class="edu-badges"><span class="ebadge cyan">Scripting</span><span class="ebadge cyan">Applied Security</span><span class="ebadge cyan">Dahlonega</span></div>
+      </div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-icon">☕</div>
+      <div style="flex:1">
+        <div class="edu-school">CS1302 · Java Programming</div>
+        <div class="edu-degree">Object-Oriented Programming · Inheritance · Polymorphism · Data Structures</div>
+        <div class="edu-meta">University of North Georgia · Spring 2026</div>
+        <div class="edu-badges"><span class="ebadge green">OOP</span><span class="ebadge green">Java</span><span class="ebadge green">Polymorphism</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-label">07 · contact</div>
+  <div class="contact-wrap reveal">
+    <div class="contact-title">Let's Connect</div>
+    <p class="contact-sub">Open to cybersecurity internships, GRC opportunities, SOC roles, AI opportunities, and connecting with professionals who are shaping the future of the field.</p>
+    <div class="contact-links">
+      <a href="mailto:tim.yenin@gmail.com" class="clink"><span class="clink-icon">✉</span> tim.yenin@gmail.com</a>
+      <a href="https://linkedin.com/in/timyenin" target="_blank" class="clink"><span class="clink-icon">💼</span> LinkedIn</a>
+      <a href="https://github.com/timyenin" target="_blank" class="clink"><span class="clink-icon">⌨</span> GitHub</a>
+    </div>
+    <p class="contact-note">// University of North Georgia · B.S. Cybersecurity · Class of ~2028</p>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-copy">© 2026 <span>Tim Yenin</span> · Cybersecurity Portfolio</span>
+  <span class="footer-quote">// the future will only contain what we put into it now.</span>
+</footer>
+
+<script>
+function navTo(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+
+var sections = document.querySelectorAll('section[id]');
+var navBtns = document.querySelectorAll('.nav-links button');
+window.addEventListener('scroll', function() {
+  var cur = '';
+  sections.forEach(function(s) { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+  navBtns.forEach(function(b) {
+    var match = b.getAttribute('onclick') && b.getAttribute('onclick').match(/'(\w+)'/);
+    var target = match ? match[1] : '';
+    b.style.color = target === cur ? 'var(--accent)' : '';
+  });
+}, { passive: true });
+</script>
+</body>
+</html>
