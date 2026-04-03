@@ -1,15 +1,10 @@
 [
   {
-    "title": "AI & ML Supply Chain Security \u2014 Annotated Advisory",
+    "title": "AI & ML Supply Chain Security — Annotated Advisory",
     "category": "research",
     "description": "Annotated version of the joint seven-agency advisory (NSA, NCSC, ACSC et al.) on AI/ML supply chain security risks. Covers training data poisoning, model serialization threats, inference infrastructure vulnerabilities, and mitigations.",
     "date": "2026-04-03",
     "path": "docs/research/AI_ML_Supply_Chain_Security_TYenin.pdf",
-    "tags": [
-      "NSA",
-      "NCSC",
-      "AI Security",
-      "Supply Chain",
-      "GRC"
-    ]
+    "tags": ["NSA", "NCSC", "AI Security", "Supply Chain", "GRC"]
   }
+]
