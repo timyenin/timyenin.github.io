@@ -12,17 +12,4 @@
       "Supply Chain",
       "GRC"
     ]
-  },
-  {
-    "title": "Document Title",
-    "category": "lab",
-    "description": "This is a brief description of the document.",
-    "date": "2026-04-03",
-    "path": "docs/lab/document_title.html",
-    "tags": [
-      "Tag1",
-      "Tag2",
-      "Tag3"
-    ]
   }
-]
