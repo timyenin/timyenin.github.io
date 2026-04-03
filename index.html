@@ -169,6 +169,31 @@ h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:600;margin-bottom:2rem;}
 .clink-icon{font-size:16px;}
 .contact-note{font-size:12px;color:var(--text3);font-family:var(--mono);}
 
+/* DOCS */
+.docs-filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.75rem;}
+.dfilt{font-family:var(--mono);font-size:12px;padding:5px 14px;border-radius:99px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.dfilt:hover{color:var(--text);background:var(--bg2);}
+.dfilt.active{background:rgba(74,222,128,.12);border-color:rgba(74,222,128,.35);color:var(--accent);}
+.docs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;min-height:80px;}
+.doc-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:.6rem;transition:border-color .2s,transform .2s;cursor:pointer;text-decoration:none;}
+.doc-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+.doc-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;}
+.doc-cat{font-family:var(--mono);font-size:10px;padding:2px 9px;border-radius:99px;}
+.doc-cat.lab{background:rgba(74,222,128,.12);color:#86efac;border:1px solid rgba(74,222,128,.25);}
+.doc-cat.ai{background:rgba(34,211,238,.1);color:#67e8f9;border:1px solid rgba(34,211,238,.25);}
+.doc-cat.research{background:rgba(167,139,250,.1);color:#c4b5fd;border:1px solid rgba(167,139,250,.25);}
+.doc-date{font-family:var(--mono);font-size:10px;color:var(--text3);}
+.doc-title{font-size:14px;font-weight:600;color:var(--text);line-height:1.4;}
+.doc-desc{font-size:13px;color:var(--text2);line-height:1.6;flex:1;}
+.doc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:.25rem;}
+.doc-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.doc-tag{font-family:var(--mono);font-size:10px;color:var(--text3);border:1px solid var(--border);border-radius:99px;padding:2px 7px;}
+.doc-arrow{font-size:12px;color:var(--text3);transition:color .2s,transform .2s;}
+.doc-card:hover .doc-arrow{color:var(--accent);transform:translateX(3px);}
+.docs-empty{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;padding:3rem;background:var(--bg2);border:1px dashed var(--border);border-radius:var(--r);}
+.docs-empty-icon{font-size:2rem;opacity:.4;}
+.docs-empty-msg{font-family:var(--mono);font-size:12px;color:var(--text3);letter-spacing:.06em;}
+
 /* FOOTER */
 footer{border-top:1px solid var(--border);padding:1.5rem clamp(1rem,5vw,3rem);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 .footer-copy{font-family:var(--mono);font-size:11px;color:var(--text3);}
@@ -196,6 +221,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem clamp(1rem,5vw,3rem);di
     <li><button onclick="navTo('experience')">experience</button></li>
     <li><button onclick="navTo('projects')">homelab</button></li>
     <li><button onclick="navTo('education')">education</button></li>
+    <li><button onclick="navTo('docs')">docs</button></li>
     <li><button onclick="navTo('contact')" class="nav-cta">contact</button></li>
   </ul>
   <button class="hamburger" onclick="toggleMenu()" aria-label="menu">
@@ -210,6 +236,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem clamp(1rem,5vw,3rem);di
   <button onclick="navTo('experience');closeMenu()">experience</button>
   <button onclick="navTo('projects');closeMenu()">homelab</button>
   <button onclick="navTo('education');closeMenu()">education</button>
+  <button onclick="navTo('docs');closeMenu()">docs</button>
   <button onclick="navTo('contact');closeMenu()">contact</button>
 </div>
 
@@ -398,13 +425,30 @@ footer{border-top:1px solid var(--border);padding:1.5rem clamp(1rem,5vw,3rem);di
   </div>
 </section>
 
+<section id="docs">
+  <div class="section-label">08 · documentation</div>
+  <h2>Documentation</h2>
+  <div class="docs-filter reveal">
+    <button class="dfilt active" onclick="filterDocs('all')">all</button>
+    <button class="dfilt" onclick="filterDocs('lab')">homelab</button>
+    <button class="dfilt" onclick="filterDocs('ai')">ai / llm</button>
+    <button class="dfilt" onclick="filterDocs('research')">research</button>
+  </div>
+  <div class="docs-grid reveal" id="docsGrid">
+    <div class="docs-empty" id="docsEmpty" style="display:none;">
+      <div class="docs-empty-icon">📄</div>
+      <div class="docs-empty-msg">No documents in this category yet.</div>
+    </div>
+  </div>
+</section>
+
 <section id="contact">
-  <div class="section-label">07 · contact</div>
+  <div class="section-label">09 · contact</div>
   <div class="contact-wrap reveal">
     <div class="contact-title">Let's Connect</div>
     <p class="contact-sub">Open to cybersecurity internships, GRC opportunities, SOC roles, AI opportunities, and connecting with professionals who are shaping the future of the field.</p>
     <div class="contact-links">
-      <a href="mailto:tim.yenin@gmail.com" class="clink"><span class="clink-icon">✉</span> tim.yenin@gmail.com</a>
+      <a href="/cdn-cgi/l/email-protection#8ffbe6e2a1f6eae1e6e1cfe8e2eee6e3a1ece0e2" class="clink"><span class="clink-icon">✉</span> <span class="__cf_email__" data-cfemail="6014090d4e19050e090e20070d01090c4e030f0d">[email&#160;protected]</span></a>
       <a href="https://linkedin.com/in/timyenin" target="_blank" class="clink"><span class="clink-icon">💼</span> LinkedIn</a>
       <a href="https://github.com/timyenin" target="_blank" class="clink"><span class="clink-icon">⌨</span> GitHub</a>
     </div>
@@ -417,7 +461,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem clamp(1rem,5vw,3rem);di
   <span class="footer-quote">// the future will only contain what we put into it now.</span>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function navTo(id) {
   var el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -430,7 +474,58 @@ var observer = new IntersectionObserver(function(entries) {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
 
-var sections = document.querySelectorAll('section[id]');
+
+// DOCS SYSTEM
+var allDocs = [];
+var activeFilter = 'all';
+
+fetch('docs/index.json')
+  .then(function(r){ return r.ok ? r.json() : []; })
+  .catch(function(){ return []; })
+  .then(function(data){
+    allDocs = data;
+    renderDocs(activeFilter);
+  });
+
+function filterDocs(cat) {
+  activeFilter = cat;
+  document.querySelectorAll('.dfilt').forEach(function(b){
+    b.classList.toggle('active', b.textContent.trim() === (cat === 'all' ? 'all' : cat === 'lab' ? 'homelab' : cat === 'ai' ? 'ai / llm' : 'research'));
+  });
+  renderDocs(cat);
+}
+
+function renderDocs(cat) {
+  var grid = document.getElementById('docsGrid');
+  var filtered = cat === 'all' ? allDocs : allDocs.filter(function(d){ return d.category === cat; });
+  // Remove existing doc cards
+  grid.querySelectorAll('.doc-card').forEach(function(c){ c.remove(); });
+  var empty = document.getElementById('docsEmpty');
+  if (filtered.length === 0) {
+    empty.style.display = 'flex';
+  } else {
+    empty.style.display = 'none';
+    filtered.slice().reverse().forEach(function(doc){
+      var a = document.createElement('a');
+      a.className = 'doc-card';
+      a.href = doc.path;
+      a.target = '_blank';
+      a.innerHTML =
+        '<div class="doc-card-top">' +
+          '<span class="doc-cat ' + doc.category + '">' + (doc.category === 'lab' ? 'homelab' : doc.category === 'ai' ? 'ai / llm' : 'research') + '</span>' +
+          '<span class="doc-date">' + doc.date + '</span>' +
+        '</div>' +
+        '<div class="doc-title">' + doc.title + '</div>' +
+        '<div class="doc-desc">' + doc.description + '</div>' +
+        '<div class="doc-footer">' +
+          '<div class="doc-tags">' + (doc.tags||[]).map(function(t){ return '<span class="doc-tag">' + t + '</span>'; }).join('') + '</div>' +
+          '<span class="doc-arrow">→</span>' +
+        '</div>';
+      grid.appendChild(a);
+    });
+  }
+}
+
 var navBtns = document.querySelectorAll('.nav-links button');
 window.addEventListener('scroll', function() {
   var cur = '';
